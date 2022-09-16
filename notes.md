@@ -3,7 +3,7 @@
 ## Procedures and Functions
 Subroutines contain two different categories: procedures a nd functions. Procedures are a series of steps, like following the steps of a recipe or a lab investigation. Functions, however, take some data as inputs (called _arguments_) and they __transform__ the arguments into new data. The new data can then be returned at the end of the function (or simply printed at the end of the function). The __main difference__ between procedures and functions is that functions have their own __inputs and outputs_.
 
-## Ex. 1 - Math Functions
+## Ex. 1 - Math Functionz
 Functions in programming are similar to functions in mathematics. There are processes where data is inputted ino the function and a new result exits function. Therefore, an individual function can be considered a sub-program within the program. It will have its own inputs, processing, and variables.
 
 f(x) = 4x + 5
@@ -44,3 +44,44 @@ __Arguments__ are the external data (numbers, string, variable, data structure, 
 Once the function completes its processing with the input values, it can __return__ a value back to the main program. The main program will then need to store the returned value in a variable if it is needed further along in the program. Return variables can also include a statement that occurs in a single line. For examples, printing (```return print (x)```) or typecasting (``` return int (VAR) ```)
 
 __A function must have _either_ an input or an output. It does not require both__ 
+
+### Variables in a Function
+There are two categories of variables: global and local. Global variables are in the main program and local variables are within a particular subroutine and do not exist in the main program. 
+
+However, a subroutine can call a global variable using the global statement within the subroutine
+
+## Advantages of Functional Programming
+1. __Repeatability__. which means that once the function is written, it can be used multiple times in different section of the program without needing to rewrite the same lines over and over again
+2. __Modularity__, which means you can make changes to a function or replace one function with another without the potential for breaking the rest of the program
+3. __Debugging and Testing__, if a program isn't working properly, functions can be isolated to help locate the problem 
+4. __Collaboration__ , because local variables don't affect the rest of the main program. Multiple developers can be creating different functions and don't need to coordinate variable names or data structures
+
+## Returning Multiple Values From a Function
+A function can return multiple variables. In order to store all return values, separate variables must be used (or more complex data structure).
+
+```python 
+#return multiple values
+
+def myFunction():
+    return VALUE1, VALUE2
+
+VARIABLE1, VARIABLE2 = myFunction()
+#this would make VARIABLE1 (global) equal to VALUE1 (local to myFunction()) and would make VARIABLE2 equal to VALUE2
+# empty comment
+```
+
+## Recursive Functions
+Recursive functions are functions that return to the same function. This return value will only have in certain instances and there is _always_ a return value that is not in the function. 
+
+```python
+NUM = input("Please enter a number. ")
+def checkInt(NUM):
+    if NUM.isnumeric():
+        return int(NUM)
+    else:
+        print("Please enter a NUMBER!!!!! >:( ")
+        NEW_NUM = input ("Number: ")
+        return checkINT (NEW_NUM)
+```
+
+ASIDE: It is possible to call one function within a different function, but using this technique does not follow the IPO formatting we use so ... try not to, unless you need to
