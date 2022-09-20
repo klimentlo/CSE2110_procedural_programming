@@ -103,6 +103,51 @@ def subNum(NUM1, NUM2):
     ANSWER = NUM1 - NUM2
     return ANSWER
 
+def mulNum(NUM1, NUM2):
+    '''
+    multiplies two numbers together
+    :param NUM1: (float)
+    :param NUM2: (float)
+    :return: (float)
+    '''
+    ANSWER = NUM1 * NUM2
+    return ANSWER
+
+def divNum(NUM1, NUM2):
+    '''
+    divides two numbers together
+    :param NUM1: (float)
+    :param NUM2: (float)
+    :return: (float)
+    '''
+    ANSWER = NUM1 / NUM2
+    return ANSWER
+
+def calcSine(NUMBER):
+    '''
+    Calculate the Sine trig ratio of an angle
+    :param NUMBER: (float) degrees
+    :return: (float)
+    '''
+    # sin function in the math library uses radians, but we asked for the input in degrees  (because people use degrees)
+    RADIANS = math.radians(NUMBER)
+    # this uses the radians function from the library to convert NUMBER from its original units of degrees into radians
+    RESULT = math.sin(RADIANS)
+    return RESULT
+
+def askContinue():
+    '''
+    Asks user whether to continue the program.
+    :return: (bool) # True/false
+    '''
+    AGAIN = input("Calculate Again? (y/n) ")
+    if AGAIN == "y" or AGAIN == "Y" or AGAIN == "":
+        return True
+    elif AGAIN == "n" or AGAIN == "N":
+        return False
+    else:
+        print("Please choose y or n ")
+        return askContinue()
 
 ### OUTPUTS
 def intro():
@@ -114,7 +159,20 @@ def intro():
 Welcome to Calculator! 
     ''')
 
+def displayAnswer (RESULT):
+    '''
+    displays answer for user
+    :param RESULT: (float)
+    :return: (none)
+    '''
 
+    if RESULT == int(RESULT):
+        RESULT = int(RESULT)
+    else:
+        RESULT = round(RESULT, 2)
+        #this rounds result to 2 decimal places
+    print(f"The answer is {RESULT}. ")
+        #add to main() by replacing print(RESULT) with displayAnswer(RESULT)
 # --- MAIN PROGRAM === #
 def main():
     '''
@@ -143,6 +201,21 @@ def main():
             RESULT = addNum(NUMBER1, NUMBER2)
         elif OPERATION == 2:
             RESULT = subNum(NUMBER1, NUMBER2)
-        print(RESULT)
+        elif OPERATION == 3:
+            RESULT = mulNum(NUMBER1, NUMBER2)
+        elif OPERATION == 4:
+            RESULT = divNum(NUMBER1, NUMBER2)
+        else:
+            RESULT = calcSine(NUMBER1)
+        displayAnswer(RESULT)
+        if not askContinue():
+            exit()
+        #if not means "if the function is False"
+        # for something to happen if askContinue is True, you could use if askContinue() instead of if not askContinue()
 
-main()
+print(__name__)
+# --- MAIN PROGRAM CODE --- #
+if __name__ == "__main__":
+    main()
+#we will discuss this lander in notes about magic variable
+# essentially it allows you to use a program like a library without running the risk of executing the program
