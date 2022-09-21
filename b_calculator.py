@@ -217,5 +217,5 @@ print(__name__)
 # --- MAIN PROGRAM CODE --- #
 if __name__ == "__main__":
     main()
-#we will discuss this lander in notes about magic variable
+#we will discuss this later in notes about magic variable
 # essentially it allows you to use a program like a library without running the risk of executing the program
