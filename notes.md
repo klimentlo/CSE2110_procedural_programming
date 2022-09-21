@@ -1,9 +1,9 @@
-#CSE2110 Procedule Programming 1 Notes
+#CSE2110 Procedural Programming 1 Notes
 
 ## Procedures and Functions
 Subroutines contain two different categories: procedures a nd functions. Procedures are a series of steps, like following the steps of a recipe or a lab investigation. Functions, however, take some data as inputs (called _arguments_) and they __transform__ the arguments into new data. The new data can then be returned at the end of the function (or simply printed at the end of the function). The __main difference__ between procedures and functions is that functions have their own __inputs and outputs_.
 
-## Ex. 1 - Math Functionz
+## Ex. 1 - Math Functions
 Functions in programming are similar to functions in mathematics. There are processes where data is inputted ino the function and a new result exits function. Therefore, an individual function can be considered a sub-program within the program. It will have its own inputs, processing, and variables.
 
 f(x) = 4x + 5
@@ -85,3 +85,49 @@ def checkInt(NUM):
 ```
 
 ASIDE: It is possible to call one function within a different function, but using this technique does not follow the IPO formatting we use so ... try not to, unless you need to
+
+## Default Parameters 
+A function can have default arguments in the event that no arguments are passed into the function. Default parameters are often optional and are usually placed at the end of the function's parameters in descending order of importance
+
+```python
+# function with default arguments
+def myFunction(param1 = True):
+    return param1
+
+print(myFunction()) # print True
+print(myFunction(False)) # print False
+```
+
+Note: The function cannot skip the default parameters. If there is a parameter lower in the list of parameters, all default parameters must have arguments supplies to reach the desired parameter
+
+```python
+def myOtherFunction(param1, param2 = "", param3 = ""):
+    print(param1)
+    print(param2)
+    print(param3)
+
+myOtherFunction(1,3)
+```
+
+## Using Multiple Files
+Subroutines can be stored in separate files to organize the functions and improve collaboration. For example, if you make a program to make sales at a coffee shop, functions can be organized into payments, transactions, and reports. Each of these categories can be in a separate file imported into the main file. in this scenario, developers can work on separate features of the program without disrupting other developers.
+
+In order to link multiple files together, python uses the ```import``` statement. Files must be in the same folder as (or a sub-folder of) the main program file.
+
+The filename of the secondary files must follow variable and naming conventions including being alphanumeric (but not starting with a number) and only using hyphens and underscores as special characters (NO SPACES!)
+
+### The \_\_name\_\_ magic variable
+
+When python runs a file, it associates the "\_\_main\_\_" value to the \_\_name\_\_ magic variable for the file that runs. All other files imported into the running program will use their filename as the \_\_main\_\_ magic variable. __Magic Variables__ are predetermined variables on the backend of the programming language that help program run. Oftentimes, programs don't need to modify these values in the program.
+
+Magic variables are indicated by two underscores before and after the next (we need to use slashes to separate the underscores in notes.md because underscores in the md files apply text formatting). They are sometimes called "double underscore variables" or "dunder variables". Since python automatically updates the \_\_name\_\_ magic variable, a check can be included to ensure that code runs only is the given file is run, and not when it's imported. This check  allows subroutines and functions can be tested in the respective files without the tests being imported into the main program.
+
+```python
+def someFunction(PARAM):
+    VALUE = PARAM * PARAM
+    return VALUE
+
+if __name__ == "__main__":
+#this section wil only run if this file is run, not imported into another file
+    print(someFunction(VAR1))
+```
