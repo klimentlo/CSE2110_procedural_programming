@@ -173,7 +173,7 @@ def displayAnswer (RESULT):
         #this rounds result to 2 decimal places
     print(f"The answer is {RESULT}. ")
         #add to main() by replacing print(RESULT) with displayAnswer(RESULT)
-# --- MAIN PROGRAM === #
+# --- MAIN PROGRAM --- #
 def main():
     '''
     main is the function that contains all of our functions

@@ -33,20 +33,3 @@ if OPERATION == 1:
     NUM2 = b_calculator.askNum("second")
     ANSWER = calcExponent(NUM1, NUM2)
     b_calculator.displayAnswer(ANSWER)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
