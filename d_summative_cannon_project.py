@@ -15,6 +15,8 @@ def menu():
     :return:
     '''
     print('''
+
+
   Scenario 1:                 |        Scenario 2:                     |         Scenario 3:
     ____                      |            ___                         |            ____
     |   \\                     |           /   \\                        |           /    \\
@@ -28,6 +30,17 @@ def menu():
     CHOICE = validNum(CHOICE)
     return CHOICE
 
+def validNum(NUMBER):
+    '''
+    Checks if the number inputted by the user is a number between 1 and 4
+    :param NUMBER: (int)
+    :return:
+    '''
+    if NUMBER < 1 and NUMBER > 4:
+        print(f"{NUMBER} isn't an option. Please select a valid number! ")
+    else:
+
+        return NUMBER
 def checkInt(NUMBER):
     '''
     Verifies the number is an integer
@@ -45,15 +58,16 @@ def checkInt(NUMBER):
 def isNum(NUMBER):
     '''
     Checks if the input is a number or not
-    :param NUMBER:
-    :return:
+    :param NUMBER: (float)
+    :return: (float)
     '''
-    if NUMBER.isnumeric():
-        return float(NUMBER)
-    else:
-        NEW_NUMBER = input("Please enter a number valid input! ")
-        return isNum(NEW_NUMBER)
-
+    try:
+        NUMBER = float(NUMBER)
+        return NUMBER
+    except ValueError:
+        print(" You did not enter a number!" )
+        NEW_NUM = input("Please enter a number: ")
+        return isNum(NEW_NUM)
 
 def validNum(CHOICE):
     '''
@@ -68,21 +82,6 @@ def validNum(CHOICE):
         NEW_CHOICE = input("Please enter a number from 1 to 4: ")
         CHOICE = int(NEW_CHOICE) #The newly inputted answer is turned into an integer, and CHOICE
         return validNum(CHOICE)
-
-
-def checkFloat(NUMBER):
-    '''
-    Verify if the number is a float
-    :param NUMBER: (str)
-    :return: (float)
-    '''
-    try:
-        NUMBER = float(NUMBER)
-        return NUMBER
-    except ValueError:
-        print(" You did not enter a number!" )
-        NEW_NUM = input("Please enter a number: ")
-        return checkFloat(NEW_NUM)
 
 
 def checkNeg(NUMBER):
@@ -135,15 +134,15 @@ def timeCal(HEIGHT): #SCENARIO 1
     :return: (float)
     '''
     HEIGHT = isNum(HEIGHT)
+    HEIGHT = float(HEIGHT)
     SOLVE =  2 * HEIGHT / 9.81 #Uses the height the user inputted and puts it into formula
-    SOLVE = int(SOLVE) #makes the value we got into an integer, cause in order to square it, it has to be an integer for some reason
-    TIME = math.isqrt(SOLVE) #Squares the value, so we can get the ACTUAL time
+    TIME = SOLVE ** (1/2) #Squares the value, so we can get the ACTUAL time
     return TIME #inputs TIME as the value of timeCal(HEIGHT)
 
 def distanceCal(TIME, VELOCITY): #SCENARIO 1
     '''
     Calculates the distance traveled using the time value that we got from previous calculation
-    :param TIME: (int) #for now at least, i want it to be a float but it wont let me 
+    :param TIME: (int) #for now at least, i want it to be a float but it wont let me
     :return: (float)
     '''
     VELOCITY = isNum(VELOCITY)
@@ -151,9 +150,14 @@ def distanceCal(TIME, VELOCITY): #SCENARIO 1
     return DISTANCE
 
 
-#def velocityX(VELOCITY2, ANGLE)
+def velocityX(VELOCITY2, ANGLE):
+    RADIANS = math.radians(ANGLE)
+    RADIANS = float(math.cos(RADIANS))
+    VELOCITY2 = float(VELOCITY2)
+    velocityX = VELOCITY2 * RADIANS
+    return velocityX
 
-#def velocityY(VELOCITY2, ANGLE)
+#def velocityY(VELOCITY2, ANGLE):
 
 
 ### OUTPUTS
@@ -163,7 +167,7 @@ def intro():
     :return: (none)
     '''
     print('''
-Welcome to the cannonball trajectory calculator! It can be used to calculate something depending on the scenario you select!
+Welcome to the cannonball trajectory calculator! It can be used to calculate something depending on the scenario you select! For the sake of this calculator, North is going to be positive, and South is going to be negative.
     ''')
 
 
@@ -185,15 +189,17 @@ How high above the water is the cannon located (in meters)?
 """)
             TIME = HEIGHT #Puts the time into the TIME value to avoid confusion (even though its already confusing LOL)
             DISTANCE = distanceCal(TIME, VELOCITY) # for the distanceCal parameters, we're putting the the time value as the first parameter, and then the requested value as the second parameter
-            print(f"The cannonball will be in the air for {TIME} seconds, having a total displacement of {DISTANCE}. ") #after calculation, displays the answer to the user
+            TIME = round(TIME, 2) # rounds to 2 decimal places, we round it after all the calculations so it can't affect the distance calculation
+            DISTANCE = round(DISTANCE, 2) #rounds the distance to two decimal places
+            print(f"The cannonball will be in the air for {TIME} seconds, having a total displacement of {DISTANCE} meters. ") #after calculation, displays the answer to the user
         if SCENARIO == 2: #if the user requested for scenario 2, the angled cannon towards parallel ship
-            VELOCITY2 = input("What is the velocity of the cannonball as it leaves the cannon (m/s)?")
-            VELOCITY2 = checkNeg(VELOCITY2)
+            VELOCITY2 = input("What is the velocity of the cannonball as it leaves the cannon (m/s)?" )
             print(VELOCITY2)
             ANGLE = input("What is the angle of the cannon to the ground? ")
             ANGLE = checkAngle(ANGLE)
             print(ANGLE)
-            #VELOCITYX = velocityX(VELOCITY2, ANGLE) #
+            VELOCITYX = velocityX(VELOCITY2, ANGLE)
+            print(VELOCITYX)
             #VELOCITYY = velocityY(VELOCITY2, ANGLE)
 
 
