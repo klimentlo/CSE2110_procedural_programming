@@ -29,7 +29,7 @@ def checkInt(NUMBER):
     :param NUMBER: (str)
     :return: (int)
     '''
-    if NUMBER.isnumeric():
+    if NUMBER.isnumeric(): 
         return int(NUMBER)
     else:
         print ("That is not a number! ")
