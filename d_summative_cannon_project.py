@@ -50,8 +50,8 @@ def checkInt(NUMBER):
     if NUMBER.isnumeric():
         return int(NUMBER)
     else:
-        print("That is not a number! ")
-        NEW_NUM = input("Please enter a valid number: ")
+        print(f"{NUMBER} is not a valid option")
+        NEW_NUM = input("Please select a scenario from 1 to 4: ")
         # It now takes the new imput (or new number) and returns it to checkInt. It then runs the new number into checkint. If the new imput isn't        an integer, itll run this program again
         return checkInt(NEW_NUM)
 
@@ -65,7 +65,8 @@ def isNum(NUMBER):
         NUMBER = float(NUMBER)
         return NUMBER
     except ValueError:
-        print(" You did not enter a number!" )
+        print("""
+You did not enter a number! """ )
         NEW_NUM = input("Please enter a number: ")
         return isNum(NEW_NUM)
 
@@ -78,8 +79,8 @@ def validNum(CHOICE):
     if CHOICE > 0 and CHOICE < 5:
         return int(CHOICE)
     else:
-        print("That's not one of the options! ")
-        NEW_CHOICE = input("Please enter a number from 1 to 4: ")
+        print("That is not one of the options! ")
+        NEW_CHOICE = input("Please select a scenario from 1 to 4: ")
         CHOICE = int(NEW_CHOICE) #The newly inputted answer is turned into an integer, and CHOICE
         return validNum(CHOICE)
 
@@ -90,11 +91,11 @@ def checkNeg(NUMBER):
     :param NUMBER: (float)
     :return: (float)
     '''
-    NUMBER = isNum(NUMBER)
-    if NUMBER > -1:
+    if NUMBER >= 0:
         return NUMBER
     else:
-        NEW_NUMBER = float(input("Please enter a positive number! "))
+        NEW_NUMBER = input("This value can't be a negative. Please enter a positive number! ")
+        NEW_NUMBER = isNum(NEW_NUMBER)
         return checkNeg(NEW_NUMBER)
 
 
@@ -126,6 +127,13 @@ def askContinue():
         print("Please choose y or n ")
         return askContinue()
 
+def direction(DISTANCE):
+    if DISTANCE >= 0:
+        DIRECTION = str("N")
+        return DIRECTION
+    else:
+        DIRECTION = str("S")
+        return DIRECTION
 ### PROCESSING
 def timeCal(HEIGHT): #SCENARIO 1
     '''
@@ -134,10 +142,12 @@ def timeCal(HEIGHT): #SCENARIO 1
     :return: (float)
     '''
     HEIGHT = isNum(HEIGHT)
+    HEIGHT = checkNeg(HEIGHT)
     HEIGHT = float(HEIGHT)
     SOLVE =  2 * HEIGHT / 9.81 #Uses the height the user inputted and puts it into formula
-    TIME = SOLVE ** (1/2) #Squares the value, so we can get the ACTUAL time
+    TIME = SOLVE ** 0.5 #Squares the value, so we can get the ACTUAL time
     return TIME #inputs TIME as the value of timeCal(HEIGHT)
+
 
 def distanceCal(TIME, VELOCITY): #SCENARIO 1
     '''
@@ -151,14 +161,34 @@ def distanceCal(TIME, VELOCITY): #SCENARIO 1
 
 
 def velocityX(VELOCITY2, ANGLE):
-    RADIANS = math.radians(ANGLE)
-    RADIANS = float(math.cos(RADIANS))
+    '''
+    calculate the horizontal velocity for scenario2
+    :param VELOCITY2: (floaT)
+    :param ANGLE: (float)
+    :return: (float
+    '''
+    RADIANSX = math.radians(ANGLE)
+    RADIANSX = float(math.cos(RADIANSX))
     VELOCITY2 = float(VELOCITY2)
-    velocityX = VELOCITY2 * RADIANS
-    return velocityX
+    VELOCITYX = VELOCITY2 * RADIANSX
+    return VELOCITYX
 
-#def velocityY(VELOCITY2, ANGLE):
 
+def velocityY(VELOCITY2, ANGLE):
+    RADIANSY = math.radians(ANGLE)
+    RADIANSY = float(math.sin(RADIANSY))
+    VELOCITY2 = float(VELOCITY2)
+    VELOCITYY = VELOCITY2 * RADIANSY
+    return VELOCITYY
+
+
+def timeCal2(VELOCITYX):
+    TIME = VELOCITYX *2 /9.81
+    return float(TIME)
+
+def distanceCal2(VELOCITYX, TIME):
+    DISTANCE2 = VELOCITYX * TIME
+    return DISTANCE2
 
 ### OUTPUTS
 def intro():
@@ -167,7 +197,8 @@ def intro():
     :return: (none)
     '''
     print('''
-Welcome to the cannonball trajectory calculator! It can be used to calculate something depending on the scenario you select! For the sake of this calculator, North is going to be positive, and South is going to be negative.
+Welcome to the cannonball trajectory calculator! It can be used to calculate something depending on the scenario you select! 
+For the sake of this program, North is going to be considered  positive, and South is going to be considered negative.
     ''')
 
 
@@ -189,19 +220,27 @@ How high above the water is the cannon located (in meters)?
 """)
             TIME = HEIGHT #Puts the time into the TIME value to avoid confusion (even though its already confusing LOL)
             DISTANCE = distanceCal(TIME, VELOCITY) # for the distanceCal parameters, we're putting the the time value as the first parameter, and then the requested value as the second parameter
-            TIME = round(TIME, 2) # rounds to 2 decimal places, we round it after all the calculations so it can't affect the distance calculation
-            DISTANCE = round(DISTANCE, 2) #rounds the distance to two decimal places
-            print(f"The cannonball will be in the air for {TIME} seconds, having a total displacement of {DISTANCE} meters. ") #after calculation, displays the answer to the user
+            TIME = round(TIME,2)  # rounds to 2 decimal places, we round it after all the calculations so it can't affect the distance calculation
+            DISTANCE = round(DISTANCE, 2)  # rounds the distance to two decimal places
+            DIRECTION = direction(DISTANCE) #checks if the number is a positive or negative. If it is positive, it will display north. If it is negative, it will display south
+            print(f"The cannonball will be in the air for a total of {TIME} seconds, with a total distance of {DISTANCE} meters {[DIRECTION]}. ") #after calculation, displays the answer to the user
         if SCENARIO == 2: #if the user requested for scenario 2, the angled cannon towards parallel ship
             VELOCITY2 = input("What is the velocity of the cannonball as it leaves the cannon (m/s)?" )
             print(VELOCITY2)
             ANGLE = input("What is the angle of the cannon to the ground? ")
             ANGLE = checkAngle(ANGLE)
-            print(ANGLE)
             VELOCITYX = velocityX(VELOCITY2, ANGLE)
-            print(VELOCITYX)
-            #VELOCITYY = velocityY(VELOCITY2, ANGLE)
-
+            VELOCITYY = velocityY(VELOCITY2, ANGLE) #wtf was the point even calculating velocityY LMAO, it aint even used
+            TIME = timeCal2(VELOCITYX)
+            DISTANCE2 = distanceCal2(VELOCITYX, TIME)
+            DIRECTION = direction(DISTANCE2)
+            DISTANCE2 = round(DISTANCE2, 2)  # rounds the distance to two decimal places
+            VELOCITYX = round(VELOCITYX, 2)  # rounds the distance to two decimal places
+            VELOCITYY = round(VELOCITYY, 2)  # rounds the distance to two decimal places
+            TIME = round(TIME, 2)  # rounds the distance to two decimal places
+            print(f""" 
+The cannonball is moving at {VELOCITYX}m/s horizontally and {VELOCITYY}m/s vertically, being in the air for a total of {TIME} seconds. 
+The total distance the cannonball traveled was {DISTANCE2} meters {[DIRECTION]}. """)
 
         if not askContinue():
             exit()
