@@ -160,36 +160,61 @@ def distanceCal(TIME, VELOCITY): #SCENARIO 1
     return DISTANCE
 
 
-def velocityX(VELOCITY2, ANGLE):
+def velocityX(VELOCITY, ANGLE):
     '''
     calculate the horizontal velocity for scenario2
-    :param VELOCITY2: (floaT)
+    :param VELOCITY: (floaT)
     :param ANGLE: (float)
     :return: (float
     '''
     RADIANSX = math.radians(ANGLE)
     RADIANSX = float(math.cos(RADIANSX))
-    VELOCITY2 = float(VELOCITY2)
-    VELOCITYX = VELOCITY2 * RADIANSX
+    VELOCITY = float(VELOCITY)
+    VELOCITYX = VELOCITY * RADIANSX
     return VELOCITYX
 
 
-def velocityY(VELOCITY2, ANGLE):
+def velocityY(VELOCITY, ANGLE):
     RADIANSY = math.radians(ANGLE)
     RADIANSY = float(math.sin(RADIANSY))
-    VELOCITY2 = float(VELOCITY2)
-    VELOCITYY = VELOCITY2 * RADIANSY
+    VELOCITY = float(VELOCITY)
+    VELOCITYY = VELOCITY * RADIANSY
     return VELOCITYY
 
 
-def timeCal2(VELOCITYX):
-    TIME = VELOCITYX *2 /9.81
+def timeCal2(VELOCITYY):
+    TIME = VELOCITYY * 2 /9.81
+    if TIME < 0:
+        TIME *= -1
     return float(TIME)
 
 def distanceCal2(VELOCITYX, TIME):
-    DISTANCE2 = VELOCITYX * TIME
-    return DISTANCE2
+    DISTANCE = VELOCITYX * TIME
+    return DISTANCE
 
+def timeCal3(VELOCITYY):
+    TIME = VELOCITYY / 9.81
+    if TIME < 0:
+        TIME *= -1
+    return float(TIME)
+
+def heightPeak(VELOCITYY):
+    HEIGHTPEAK = (VELOCITYY ** 2) / (2 * 9.81)
+    return HEIGHTPEAK
+
+def heightTotalCal(HEIGHTPEAK, SHIPHEIGHT):
+    HEIGHTPEAK = isNum(HEIGHTPEAK)
+    SHIPHEIGHT = isNum(SHIPHEIGHT)
+    HEIGHTTOTAL = HEIGHTPEAK + SHIPHEIGHT
+    return HEIGHTTOTAL
+
+def timeFallCal(HEIGHTTOT):
+    TOTTIME = ((HEIGHTTOT)/9.81) ** 0.5
+    return TOTTIME
+
+def distanceCAl(TIMEFALL, TIME, VELOCITYX):
+    DISTANCE = (TIMEFALL + TIME) * VELOCITYX
+    return DISTANCE
 ### OUTPUTS
 def intro():
     '''
@@ -226,12 +251,12 @@ How high above the water is the cannon located (in meters)?
             print(f"The cannonball will be in the air for a total of {TIME} seconds, with a total distance of {DISTANCE} meters {[DIRECTION]}. ") #after calculation, displays the answer to the user
         if SCENARIO == 2: #if the user requested for scenario 2, the angled cannon towards parallel ship
             VELOCITY2 = input("What is the velocity of the cannonball as it leaves the cannon (m/s)?" )
-            print(VELOCITY2)
+            VELOCITY2= isNum(VELOCITY2)
             ANGLE = input("What is the angle of the cannon to the ground? ")
             ANGLE = checkAngle(ANGLE)
             VELOCITYX = velocityX(VELOCITY2, ANGLE)
-            VELOCITYY = velocityY(VELOCITY2, ANGLE) #wtf was the point even calculating velocityY LMAO, it aint even used
-            TIME = timeCal2(VELOCITYX)
+            VELOCITYY = velocityY(VELOCITY2, ANGLE)
+            TIME = timeCal2(VELOCITYY)
             DISTANCE2 = distanceCal2(VELOCITYX, TIME)
             DIRECTION = direction(DISTANCE2)
             DISTANCE2 = round(DISTANCE2, 2)  # rounds the distance to two decimal places
@@ -241,6 +266,20 @@ How high above the water is the cannon located (in meters)?
             print(f""" 
 The cannonball is moving at {VELOCITYX}m/s horizontally and {VELOCITYY}m/s vertically, being in the air for a total of {TIME} seconds. 
 The total distance the cannonball traveled was {DISTANCE2} meters {[DIRECTION]}. """)
+        if SCENARIO == 3:
+            VELOCITY3 = input("What is the velocity of the cannonball as it leaves the cannon (m/s)?" )
+            VELOCITY3 = isNum(VELOCITY3)
+            ANGLE = input("What is the angle of the cannon to the ground? ")
+            ANGLE = checkAngle(ANGLE)
+            SHIPHEIGHT = input("How much lower is the enemy ship compared to yours? ")
+            VELOCITYX = velocityX(VELOCITY3, ANGLE)
+            VELOCITYY = velocityY(VELOCITY3, ANGLE)
+            TIME = timeCal3(VELOCITYY)
+            HEIGHT = heightPeak(VELOCITYY)
+            HEIGHTTOTAL = heightTotalCal(HEIGHT, SHIPHEIGHT)
+            TIMEFALL = timeFallCal(HEIGHTTOTAL)
+            DISTANCE = distanceCAl(TIMEFALL, TIME, VELOCITYX)
+            print(DISTANCE)
 
         if not askContinue():
             exit()
