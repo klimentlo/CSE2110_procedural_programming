@@ -91,6 +91,7 @@ def checkNeg(NUMBER):
     :param NUMBER: (float)
     :return: (float)
     '''
+    NUMBER = float(NUMBER)
     if NUMBER >= 0:
         return NUMBER
     else:
@@ -192,8 +193,8 @@ def distanceCal2(VELOCITYX, TIME):
     DISTANCE = VELOCITYX * TIME
     return DISTANCE
 
-def timeCal3(VELOCITYY):
-    TIME = VELOCITYY / 9.81
+def timeCal3(VELOCITYY): #the time it takes for the ball to hit its PEAK
+    TIME = VELOCITYY /9.81
     if TIME < 0:
         TIME *= -1
     return float(TIME)
@@ -208,12 +209,16 @@ def heightTotalCal(HEIGHTPEAK, SHIPHEIGHT):
     HEIGHTTOTAL = HEIGHTPEAK + SHIPHEIGHT
     return HEIGHTTOTAL
 
-def timeFallCal(HEIGHTTOT):
+def timePeak(HEIGHTTOT):
     TOTTIME = ((HEIGHTTOT)/9.81) ** 0.5
     return TOTTIME
 
-def distanceCAl(TIMEFALL, TIME, VELOCITYX):
-    DISTANCE = (TIMEFALL + TIME) * VELOCITYX
+def timeFallCal(HEIGHTTOTAL):
+    TIMEFALL = HEIGHTTOTAL / 9.81
+    return TIMEFALL
+
+def distanceCAl(TIMEFALL, VELOCITYX):
+    DISTANCE = TIMEFALL  * VELOCITYX
     return DISTANCE
 ### OUTPUTS
 def intro():
@@ -269,17 +274,21 @@ The total distance the cannonball traveled was {DISTANCE2} meters {[DIRECTION]}.
         if SCENARIO == 3:
             VELOCITY3 = input("What is the velocity of the cannonball as it leaves the cannon (m/s)?" )
             VELOCITY3 = isNum(VELOCITY3)
-            ANGLE = input("What is the angle of the cannon to the ground? ")
-            ANGLE = checkAngle(ANGLE)
+            ANGLE3 = input("What is the angle of the cannon to the ground? ")
+            ANGLE3 = checkAngle(ANGLE3)
             SHIPHEIGHT = input("How much lower is the enemy ship compared to yours? ")
-            VELOCITYX = velocityX(VELOCITY3, ANGLE)
-            VELOCITYY = velocityY(VELOCITY3, ANGLE)
-            TIME = timeCal3(VELOCITYY)
-            HEIGHT = heightPeak(VELOCITYY)
+            SHIPHEIGHT = checkNeg(SHIPHEIGHT)
+            VELOCITYX = velocityX(VELOCITY3, ANGLE3)
+            VELOCITYY = velocityY(VELOCITY3, ANGLE3)
+            TIME = timeCal3(VELOCITYY) #calculates time it takes for ball to hit peak
+            HEIGHT = heightPeak(VELOCITYY) #calculates the height peak
             HEIGHTTOTAL = heightTotalCal(HEIGHT, SHIPHEIGHT)
             TIMEFALL = timeFallCal(HEIGHTTOTAL)
-            DISTANCE = distanceCAl(TIMEFALL, TIME, VELOCITYX)
-            print(DISTANCE)
+            DISTANCE = distanceCal(TIMEFALL, VELOCITYX)
+            print (f"VelocityX: {VELOCITYX}")
+            print(f"Time: {TIME}")
+            print(f"Timefall: {TIMEFALL}")
+            print (f" Distance: {DISTANCE}")
 
         if not askContinue():
             exit()
