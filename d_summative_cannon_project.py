@@ -136,6 +136,7 @@ def direction(DISTANCE):
         DIRECTION = str("S")
         return DIRECTION
 ### PROCESSING
+## SCENARIO 1
 def timeCal(HEIGHT): #SCENARIO 1
     '''
     Calculating the amount of time it is in the air
@@ -160,7 +161,7 @@ def distanceCal(TIME, VELOCITY): #SCENARIO 1
     DISTANCE = TIME * VELOCITY
     return DISTANCE
 
-
+## SCENARIO 2
 def velocityX(VELOCITY, ANGLE):
     '''
     calculate the horizontal velocity for scenario2
@@ -193,32 +194,27 @@ def distanceCal2(VELOCITYX, TIME):
     DISTANCE = VELOCITYX * TIME
     return DISTANCE
 
-def timeCal3(VELOCITYY): #the time it takes for the ball to hit its PEAK
-    TIME = VELOCITYY /9.81
-    if TIME < 0:
-        TIME *= -1
-    return float(TIME)
+##SCENARIO 3
+def timePeak(VELOCITYY):
+    TIMEPEAK = VELOCITYY/9.81
+    return TIMEPEAK
 
-def heightPeak(VELOCITYY):
-    HEIGHTPEAK = (VELOCITYY ** 2) / (2 * 9.81)
-    return HEIGHTPEAK
+def maxHeight(VELOCITYY):
+    MAXHEIGHT = (VELOCITYY ** 2) / (2 * 9.81)
+    return MAXHEIGHT
 
-def heightTotalCal(HEIGHTPEAK, SHIPHEIGHT):
-    HEIGHTPEAK = isNum(HEIGHTPEAK)
-    SHIPHEIGHT = isNum(SHIPHEIGHT)
-    HEIGHTTOTAL = HEIGHTPEAK + SHIPHEIGHT
+def totHeight (MAXHEIGHT, SHIPHEIGHT):
+    #MAXHEIGHT = isNum(HEIGHTPEAK)
+    #SHIPHEIGHT = isNum(SHIPHEIGHT)
+    HEIGHTTOTAL = MAXHEIGHT + SHIPHEIGHT
     return HEIGHTTOTAL
 
-def timePeak(HEIGHTTOT):
-    TOTTIME = ((HEIGHTTOT)/9.81) ** 0.5
-    return TOTTIME
-
-def timeFallCal(HEIGHTTOTAL):
-    TIMEFALL = HEIGHTTOTAL / 9.81
+def fallTime(TOTHEIGHT):
+    TIMEFALL = ((TOTHEIGHT * 2) / 9.81) ** 0.5
     return TIMEFALL
 
-def distanceCAl(TIMEFALL, VELOCITYX):
-    DISTANCE = TIMEFALL  * VELOCITYX
+def distanceCal(VELOCITYX, TOTALTIME):
+    DISTANCE = VELOCITYX * TOTALTIME
     return DISTANCE
 ### OUTPUTS
 def intro():
@@ -248,6 +244,7 @@ How high above the water is the cannon located (in meters)?
             HEIGHT = timeCal(HEIGHT) #calculates the time it is in the air using the height
             VELOCITY = input("""How fast is the cannonball flying at when it leaves the cannon (in m/s)?" 
 """)
+            VELOCITY = isNum(VELOCITY)
             TIME = HEIGHT #Puts the time into the TIME value to avoid confusion (even though its already confusing LOL)
             DISTANCE = distanceCal(TIME, VELOCITY) # for the distanceCal parameters, we're putting the the time value as the first parameter, and then the requested value as the second parameter
             TIME = round(TIME,2)  # rounds to 2 decimal places, we round it after all the calculations so it can't affect the distance calculation
@@ -280,15 +277,20 @@ The total distance the cannonball traveled was {DISTANCE2} meters {[DIRECTION]}.
             SHIPHEIGHT = checkNeg(SHIPHEIGHT)
             VELOCITYX = velocityX(VELOCITY3, ANGLE3)
             VELOCITYY = velocityY(VELOCITY3, ANGLE3)
-            TIME = timeCal3(VELOCITYY) #calculates time it takes for ball to hit peak
-            HEIGHT = heightPeak(VELOCITYY) #calculates the height peak
-            HEIGHTTOTAL = heightTotalCal(HEIGHT, SHIPHEIGHT)
-            TIMEFALL = timeFallCal(HEIGHTTOTAL)
-            DISTANCE = distanceCal(TIMEFALL, VELOCITYX)
-            print (f"VelocityX: {VELOCITYX}")
-            print(f"Time: {TIME}")
-            print(f"Timefall: {TIMEFALL}")
-            print (f" Distance: {DISTANCE}")
+            TIMEPEAK = timePeak(VELOCITYY)
+            MAXHEIGHT = maxHeight(VELOCITYY)
+            TOTHEIGHT = totHeight(MAXHEIGHT, SHIPHEIGHT)
+            FALLTIME = fallTime(TOTHEIGHT)
+            TOTALTIME = TIMEPEAK + FALLTIME
+            DISTANCE3 = distanceCal(VELOCITYX, TOTALTIME)
+            DISTANCE3 = round(DISTANCE3, 2)  # rounds the distance to two decimal places
+            VELOCITYX = round(VELOCITYX, 2)  # rounds the velocityx to two decimal places
+            VELOCITYY = round(VELOCITYY, 2)  # rounds the velocityy to two decimal places
+            TIME = round(TIME, 2)  # rounds the time to two decimal places
+            DIRECTION = direction(DISTANCE3)
+            print(f"""
+The cannonball is moving at {VELOCITYX}m/s horizontally and {VELOCITYY}m/s vertically, being in the air for a total of {TOTALTIME} seconds. 
+The total distance the cannonball traveled was {DISTANCE3} meters {[DIRECTION]}. """)
 
         if not askContinue():
             exit()
