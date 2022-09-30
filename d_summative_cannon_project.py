@@ -258,12 +258,12 @@ def main():
 How high above the water is the cannon located (in meters)? 
 """ )
             GRAVITY = input("What is the magnitude of gravity? ")
-            GRAVITY = isNum(GRAVITY)
-            GRAVITY = checkNeg(GRAVITY)
+            GRAVITY = isNum(GRAVITY) #checks if input is a number
+            GRAVITY = checkNeg(GRAVITY) #checks if input is a negative, cause in this calculator gravity isn't inputted as a negative
             HEIGHT = timeCal(HEIGHT, GRAVITY) #calculates the time it is in the air using the height
             VELOCITY = input("""How fast is the cannonball flying at when it leaves the cannon (in m/s)?" 
 """)
-            VELOCITY = isNum(VELOCITY)
+            VELOCITY = isNum(VELOCITY) #checks if input is a number
             TIME = HEIGHT #Puts the time into the TIME value to avoid confusion (even though its already confusing LOL)
             DISTANCE = distanceCal(TIME, VELOCITY) # for the distanceCal parameters, we're putting the the time value as the first parameter, and then the requested value as the second parameter
             TIME = round(TIME,2)  # rounds to 2 decimal places, we round it after all the calculations so it can't affect the distance calculation
@@ -272,7 +272,7 @@ How high above the water is the cannon located (in meters)?
             print(f"The cannonball will be in the air for a total of {TIME} seconds, with a total distance of {DISTANCE} meters {[DIRECTION]}. ") #after calculation, displays the answer to the user
         if SCENARIO == 2: #if the user requested for scenario 2, the angled cannon towards parallel ship
             VELOCITY2 = input("What is the velocity of the cannonball as it leaves the cannon (m/s)?" )
-            VELOCITY2= isNum(VELOCITY2)
+            VELOCITY2= isNum(VELOCITY2) #checks if it is a number
             #Requests for and calculates for angle
             ANGLE = input("What is the angle of the cannon to the ground? ")
             ANGLE = checkAngle(ANGLE)
@@ -328,19 +328,20 @@ The total distance the cannonball traveled was {DISTANCE3} meters {[DIRECTION]}.
             ANGLE4 = checkAngle(ANGLE4)
             VELOCITYY = velocityY(VELOCITY4, ANGLE4)
             SHIPHEIGHT = input("How much lower is the your ship compared to the enemies? ")
+            SHIPHEIGHT = isNum(SHIPHEIGHT)
+            SHIPHEIGHT = checkNeg(SHIPHEIGHT)
             GRAVITY = input("What is the magnitude of gravity? ")
             GRAVITY = isNum(GRAVITY)
             GRAVITY = checkNeg(GRAVITY)
             MAXHEIGHT = maxHeight(VELOCITYY, GRAVITY)
-            SHIPHEIGHT = checkPossible(SHIPHEIGHT, MAXHEIGHT)
-            VELOCITYX = velocityX(VELOCITY4, ANGLE4)
-            TIMEPEAK = timePeak(VELOCITYY, GRAVITY)
-            TOTHEIGHT = totHeight4(MAXHEIGHT, SHIPHEIGHT)
-            FALLTIME = fallTime(TOTHEIGHT, GRAVITY)
-            TOTALTIME = totalTimeCal(TIMEPEAK, FALLTIME)
-            DISTANCE4 = distanceCal(VELOCITYX, TOTALTIME)
-            MAXHEIGHT = round(MAXHEIGHT, 2)
-            DIRECTION = direction(DISTANCE4)
+            SHIPHEIGHT = checkPossible(SHIPHEIGHT, MAXHEIGHT) #checks if the cannonball can even reach the ship in the first place
+            VELOCITYX = velocityX(VELOCITY4, ANGLE4) #calculates horizontal velocity
+            TIMEPEAK = timePeak(VELOCITYY, GRAVITY) #calculates the time it takes to hit its peak
+            TOTHEIGHT = totHeight4(MAXHEIGHT, SHIPHEIGHT) #calculates the height from the cannonball to the enemy ship
+            FALLTIME = fallTime(TOTHEIGHT, GRAVITY) #calculates the time it takes to fall from that time
+            TOTALTIME = totalTimeCal(TIMEPEAK, FALLTIME) #calculates the total time the ball is in the air
+            DISTANCE4 = distanceCal(VELOCITYX, TOTALTIME) # calculates the total distance traveled
+            DIRECTION = direction(DISTANCE4) #gives it a "north" or "south" direction (read the intro)
             DISTANCE4 = round(DISTANCE4, 2)  # rounds the distance to two decimal places
             VELOCITYX = round(VELOCITYX, 2)  # rounds the velocityx to two decimal places
             VELOCITYY = round(VELOCITYY, 2)  # rounds the velocityy to two decimal places
