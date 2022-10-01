@@ -6,7 +6,7 @@ date-created: 2022-09-21
 '''
 #Imported thingies
 import math
-
+PROGRAMRAN = 0
 # --- FUNCTIONS --- #
 
 ### INPUTS
@@ -18,7 +18,7 @@ def menu():
     print('''
     
     Scenarios:
-    -------------------------------------------------------------------------------------------------------------------------------------------
+     -------------------------------------------------------------------------------------------------------------------------------------------
     |                                  |                                  |                                  |                                |
     |      Scenario 1:                 |         Scenario 2:              |         Scenario 3:              |         Scenario 4:            |
     |        ____                      |             ___                  |            ____                  |            ____                |
@@ -53,12 +53,15 @@ def validChoice(CHOICE):
     :param CHOICE: (str)
     :return: (int)
     '''
-    if CHOICE > 0 and CHOICE < 5:
-        return int(CHOICE)
-    else:
-        print("That is not one of the options! ")
-        NEW_CHOICE = input("Please select a scenario from 1 to 4: ")
-        CHOICE = int(NEW_CHOICE) #The newly inputted answer is turned into an integer, and CHOICE
+    try: #this is necessary, as if you spam an invalid number too many times too quickly, it would cause an error. So to compat this, i used try and except Value Error!
+        if CHOICE > 0 and CHOICE < 5:
+            return CHOICE
+        else:
+            print("That is not one of the options! ")
+            NEW_CHOICE = input("Please select a scenario from 1 to 4: ")
+            CHOICE = int(NEW_CHOICE) #The newly inputted answer is turned into an integer, and CHOICE
+            return validChoice(CHOICE)
+    except ValueError:
         return validChoice(CHOICE)
 def isNum(NUMBER):
     '''
@@ -73,7 +76,6 @@ def isNum(NUMBER):
         print("You did not enter a number! " )
         NEW_NUM = input("Please enter a number: ")
         return isNum(NEW_NUM)
-
 def checkNeg(NUMBER):
     '''
     Checks if the number is a negative or not
@@ -254,7 +256,7 @@ def fallTime(TOTHEIGHT, GRAVITY):
     TIMEFALL = ((TOTHEIGHT * 2) / GRAVITY) ** 0.5 #get fall time
     return TIMEFALL
 
-def distanceCal(VELOCITYX, TOTALTIME):
+def distanceCal4(VELOCITYX, TOTALTIME):
     '''
     calculates total distance traveled
     :param VELOCITYX: (float)
@@ -331,9 +333,20 @@ In addition, gravity is a value that you provide. Here are some different gravit
                   (values are in m/s)  
     ''')
 
+def displayProgramRan(PROGRAMRANN):
+    '''
+    displays the amount of time the program was ran
+    :param PROGRAMRAN: (str)
+    :return:
+    '''
+    global PROGRAMRAN
+    PROGRAMRANN = PROGRAMRAN
+
+    print(f"Thank you for using the cannonball trajectory calculator! You've made a total of {PROGRAMRANN} calculations! ")
 
 # --- MAIN PROGRAM --- #
 def main():
+    global PROGRAMRAN
     '''
     the main program where everything runs
     :return:
@@ -358,6 +371,8 @@ def main():
             DISTANCE = round(DISTANCE, 2)  # rounds the distance to two decimal places
             DIRECTION = direction(DISTANCE) #checks if the number is a positive or negative. If it is positive, it will display north. If it is negative, it will display south
             print(f"The cannonball will be in the air for a total of {TIME} seconds, traveling a total distance of {DISTANCE} meters {[DIRECTION]}. ") #after calculation, displays the answer to the user
+            PROGRAMRAN += 1
+
         if SCENARIO == 2: #if the user requested for scenario 2, the angled cannon towards parallel ship
             VELOCITY2 = input("What is the velocity of the cannonball as it leaves the cannon (m/s)?" )
             VELOCITY2= isNum(VELOCITY2) #checks if it is a number
@@ -380,6 +395,8 @@ def main():
             print(f""" 
 The cannonball is moving at {VELOCITYX}m/s horizontally and {VELOCITYY}m/s vertically, being in the air for a total of {TIME} seconds. 
 The total distance the cannonball traveled was {DISTANCE2} meters {[DIRECTION]}. """)
+            PROGRAMRAN += 1
+
         if SCENARIO == 3:
             VELOCITY3 = input("What is the velocity of the cannonball as it leaves the cannon (m/s)?" ) #request for velocity
             VELOCITY3 = isNum(VELOCITY3) #check if it is number
@@ -398,7 +415,7 @@ The total distance the cannonball traveled was {DISTANCE2} meters {[DIRECTION]}.
             TOTHEIGHT = totHeight(MAXHEIGHT, SHIPHEIGHT) #how high it is compared to enemy ship
             FALLTIME = fallTime(TOTHEIGHT, GRAVITY) #time it take to fall
             TOTALTIME = TIMEPEAK + FALLTIME #total time in air
-            DISTANCE3 = distanceCal(VELOCITYX, TOTALTIME) #calculate distance
+            DISTANCE3 = distanceCal4(VELOCITYX, TOTALTIME) #calculate distance
             DISTANCE3 = round(DISTANCE3, 2)  # rounds the distance to two decimal places
             VELOCITYX = round(VELOCITYX, 2)  # rounds the velocityx to two decimal places
             VELOCITYY = round(VELOCITYY, 2)  # rounds the velocityy to two decimal places
@@ -407,6 +424,8 @@ The total distance the cannonball traveled was {DISTANCE2} meters {[DIRECTION]}.
             print(f"""
 The cannonball is moving at {VELOCITYX}m/s horizontally and {VELOCITYY}m/s vertically, being in the air for a total of {TOTALTIME} seconds. 
 The total distance the cannonball traveled was {DISTANCE3} meters {[DIRECTION]}. """)
+            PROGRAMRAN += 1
+
         if SCENARIO == 4:
             VELOCITY4 = input("What is the velocity of the cannonball as it leaves the cannon (m/s)?") #request for velocity
             VELOCITY4 = isNum(VELOCITY4) #check if number
@@ -426,7 +445,7 @@ The total distance the cannonball traveled was {DISTANCE3} meters {[DIRECTION]}.
             TOTHEIGHT = totHeight4(MAXHEIGHT, SHIPHEIGHT) #calculates the height from the cannonball to the enemy ship
             FALLTIME = fallTime(TOTHEIGHT, GRAVITY) #calculates the time it takes to fall from that time
             TOTALTIME = totalTimeCal(TIMEPEAK, FALLTIME) #calculates the total time the ball is in the air
-            DISTANCE4 = distanceCal(VELOCITYX, TOTALTIME) # calculates the total distance traveled
+            DISTANCE4 = distanceCal4(VELOCITYX, TOTALTIME) # calculates the total distance traveled
             DIRECTION = direction(DISTANCE4) #gives it a "north" or "south" direction (read the intro)
             DISTANCE4 = round(DISTANCE4, 2)  # rounds the distance to two decimal places
             VELOCITYX = round(VELOCITYX, 2)  # rounds the velocityx to two decimal places
@@ -435,7 +454,11 @@ The total distance the cannonball traveled was {DISTANCE3} meters {[DIRECTION]}.
             print(f"""     
 The cannonball is moving at {VELOCITYX}m/s horizontally and {VELOCITYY}m/s vertically, being in the air for a total of {TOTALTIME} seconds. 
 The total distance the cannonball traveled was {DISTANCE4} meters {[DIRECTION]}. """)
+            PROGRAMRAN += 1
+
         if not askContinue():
+            PROGRAMRANN = 1
+            displayProgramRan(PROGRAMRANN)
             exit()
 
 main()
