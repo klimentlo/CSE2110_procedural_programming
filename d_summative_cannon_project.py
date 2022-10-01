@@ -1,7 +1,7 @@
 # d_summative_cannon_project.py
 '''
-title: cannon operator
-author: kliment lo
+title: cannon-operator
+author: kliment-lo
 date-created: 2022-09-21
 '''
 
@@ -249,7 +249,7 @@ def fallTime(TOTHEIGHT, GRAVITY):
     :param GRAVITY: (float)
     :return: (float)
     '''
-    TIMEFALL = ((TOTHEIGHT * 2) / GRAVITY) ** 0.5
+    TIMEFALL = ((TOTHEIGHT * 2) / GRAVITY) ** 0.5 #get fall time
     return TIMEFALL
 
 def distanceCal(VELOCITYX, TOTALTIME):
@@ -259,7 +259,7 @@ def distanceCal(VELOCITYX, TOTALTIME):
     :param TOTALTIME: (float)
     :return: (float)
     '''
-    DISTANCE = VELOCITYX * TOTALTIME
+    DISTANCE = VELOCITYX * TOTALTIME #gets distance
     return DISTANCE
 
 def totHeight4 (MAXHEIGHT, SHIPHEIGHT):
@@ -271,7 +271,7 @@ def totHeight4 (MAXHEIGHT, SHIPHEIGHT):
     '''
     MAXHEIGHT = isNum(MAXHEIGHT)
     SHIPHEIGHT = isNum(SHIPHEIGHT)
-    HEIGHTTOTAL = MAXHEIGHT - SHIPHEIGHT
+    HEIGHTTOTAL = MAXHEIGHT - SHIPHEIGHT #shows the total height the ball will drop
     return HEIGHTTOTAL
 
 def checkPossible(SHIPHEIGHT, MAXHEIGHT):
@@ -284,7 +284,7 @@ def checkPossible(SHIPHEIGHT, MAXHEIGHT):
     SHIPHEIGHT = isNum(SHIPHEIGHT)
     SHIPHEIGHT = checkNeg(SHIPHEIGHT)
 
-    if SHIPHEIGHT > MAXHEIGHT: #if ball can't even reach the ship
+    if SHIPHEIGHT > MAXHEIGHT: #if ball can't even reach the ship, requests for a new input for ship
         NEW_SHIPHEIGHT = input(f"The shipheight is too high for the cannonball to reach! Please input a new enemy ship height that is lower than {MAXHEIGHT}:")
         return checkPossible(NEW_SHIPHEIGHT, MAXHEIGHT)
     else:
@@ -297,12 +297,14 @@ def totalTimeCal(TIMEPEAK, FALLTIME):
     :param FALLTIME: (float)
     :return: (float)
     '''
-    if TIMEPEAK < 0:
-        TIMEPEAK *= -1
+    if TIMEPEAK < 0: #if the time is negative
+        TIMEPEAK *= -1 #make it not negative
     if FALLTIME < 0:
         FALLTIME *= -1
+        #this was all necessary as since im displaying time, it's important that it's not a negative, cause time has no direction and can't be negative
     TOTALTIME = FALLTIME * TIMEPEAK
     return TOTALTIME
+
 ### --- OUTPUTS --- ###
 def intro():
 
@@ -317,12 +319,14 @@ In this program, North will be positive, and South will be negative!
 In addition, gravity is a value that you provide. Here are some different gravities you could play around with! 
 (But for realistic calculations, use earth's gravity.)
 
-Mercury: 3.70     Jupiter: 24.8
-Venus: 8.87       Saturn: 10.4
-Earth: 9.81       Uranus: 8.87
-Mars: 3.71        Neptune: 11.2
-(values are in m/s)
-
+               Gravities of planets in our solar system
+               ---------------------------------------
+               |  Mercury: 3.70     Jupiter: 24.8    |
+               |  Venus: 8.87       Saturn: 10.4     |
+               |  Earth: 9.81       Uranus: 8.87     |
+               |  Mars: 3.71        Neptune: 11.2    |
+               ---------------------------------------
+                         (values are in m/s)  
     ''')
 
 
@@ -375,24 +379,24 @@ def main():
 The cannonball is moving at {VELOCITYX}m/s horizontally and {VELOCITYY}m/s vertically, being in the air for a total of {TIME} seconds. 
 The total distance the cannonball traveled was {DISTANCE2} meters {[DIRECTION]}. """)
         if SCENARIO == 3:
-            VELOCITY3 = input("What is the velocity of the cannonball as it leaves the cannon (m/s)?" )
-            VELOCITY3 = isNum(VELOCITY3)
-            ANGLE3 = input("What is the angle of the cannon to the ground? ")
-            ANGLE3 = checkAngle(ANGLE3)
-            SHIPHEIGHT = input("How much higher is the your ship compared to the enemies? ")
-            SHIPHEIGHT = isNum(SHIPHEIGHT)
-            SHIPHEIGHT = checkNeg(SHIPHEIGHT)
-            GRAVITY = input ("What is the magnitude of gravity? ")
-            GRAVITY = isNum(GRAVITY)
-            GRAVITY = checkNeg(GRAVITY)
-            VELOCITYX = velocityX(VELOCITY3, ANGLE3)
-            VELOCITYY = velocityY(VELOCITY3, ANGLE3)
-            TIMEPEAK = timePeak(VELOCITYY, GRAVITY)
-            MAXHEIGHT = maxHeight(VELOCITYY, GRAVITY)
-            TOTHEIGHT = totHeight(MAXHEIGHT, SHIPHEIGHT)
-            FALLTIME = fallTime(TOTHEIGHT, GRAVITY)
-            TOTALTIME = TIMEPEAK + FALLTIME
-            DISTANCE3 = distanceCal(VELOCITYX, TOTALTIME)
+            VELOCITY3 = input("What is the velocity of the cannonball as it leaves the cannon (m/s)?" ) #request for velocity
+            VELOCITY3 = isNum(VELOCITY3) #check if it is number
+            ANGLE3 = input("What is the angle of the cannon to the ground? ") #request for angle
+            ANGLE3 = checkAngle(ANGLE3) #check if angle is 1-89
+            SHIPHEIGHT = input("How much higher is the your ship compared to the enemies? ") # request for shipheight above the enemies
+            SHIPHEIGHT = isNum(SHIPHEIGHT) # check if number
+            SHIPHEIGHT = checkNeg(SHIPHEIGHT) #check if negative number
+            GRAVITY = input ("What is the magnitude of gravity? ") #request for gravity
+            GRAVITY = isNum(GRAVITY) #check if number
+            GRAVITY = checkNeg(GRAVITY) #check if negative
+            VELOCITYX = velocityX(VELOCITY3, ANGLE3) #get horizontal speed
+            VELOCITYY = velocityY(VELOCITY3, ANGLE3) #get vertical speed
+            TIMEPEAK = timePeak(VELOCITYY, GRAVITY) #get time it takes to get to top
+            MAXHEIGHT = maxHeight(VELOCITYY, GRAVITY) #how high it goes
+            TOTHEIGHT = totHeight(MAXHEIGHT, SHIPHEIGHT) #how high it is compared to enemy ship
+            FALLTIME = fallTime(TOTHEIGHT, GRAVITY) #time it take to fall
+            TOTALTIME = TIMEPEAK + FALLTIME #total time in air
+            DISTANCE3 = distanceCal(VELOCITYX, TOTALTIME) #calculate distance
             DISTANCE3 = round(DISTANCE3, 2)  # rounds the distance to two decimal places
             VELOCITYX = round(VELOCITYX, 2)  # rounds the velocityx to two decimal places
             VELOCITYY = round(VELOCITYY, 2)  # rounds the velocityy to two decimal places
@@ -402,20 +406,20 @@ The total distance the cannonball traveled was {DISTANCE2} meters {[DIRECTION]}.
 The cannonball is moving at {VELOCITYX}m/s horizontally and {VELOCITYY}m/s vertically, being in the air for a total of {TOTALTIME} seconds. 
 The total distance the cannonball traveled was {DISTANCE3} meters {[DIRECTION]}. """)
         if SCENARIO == 4:
-            VELOCITY4 = input("What is the velocity of the cannonball as it leaves the cannon (m/s)?")
-            VELOCITY4 = isNum(VELOCITY4)
-            ANGLE4 = input("What is the angle of the cannon to the ground? ")
-            ANGLE4 = checkAngle(ANGLE4)
-            VELOCITYY = velocityY(VELOCITY4, ANGLE4)
-            SHIPHEIGHT = input("How much higher is the enemy ship compared to yours? ")
-            SHIPHEIGHT = isNum(SHIPHEIGHT)
-            SHIPHEIGHT = checkNeg(SHIPHEIGHT)
-            GRAVITY = input("What is the magnitude of gravity? ")
-            GRAVITY = isNum(GRAVITY)
-            GRAVITY = checkNeg(GRAVITY)
-            MAXHEIGHT = maxHeight(VELOCITYY, GRAVITY)
-            SHIPHEIGHT = checkPossible(SHIPHEIGHT, MAXHEIGHT) #checks if the cannonball can even reach the ship in the first place
+            VELOCITY4 = input("What is the velocity of the cannonball as it leaves the cannon (m/s)?") #request for velocity
+            VELOCITY4 = isNum(VELOCITY4) #check if number
+            ANGLE4 = input("What is the angle of the cannon to the ground? ") #request for angle
+            ANGLE4 = checkAngle(ANGLE4) #check if between 1-89
+            VELOCITYY = velocityY(VELOCITY4, ANGLE4) #calculate vertical velocity
             VELOCITYX = velocityX(VELOCITY4, ANGLE4) #calculates horizontal velocity
+            SHIPHEIGHT = input("How much higher is the enemy ship compared to yours? ") #request for ship height
+            SHIPHEIGHT = isNum(SHIPHEIGHT) #check if number
+            SHIPHEIGHT = checkNeg(SHIPHEIGHT) # check if negative
+            GRAVITY = input("What is the magnitude of gravity? ") #request for gravity
+            GRAVITY = isNum(GRAVITY) #check if number
+            GRAVITY = checkNeg(GRAVITY) #check if negative
+            MAXHEIGHT = maxHeight(VELOCITYY, GRAVITY) #max hieght of ball
+            SHIPHEIGHT = checkPossible(SHIPHEIGHT, MAXHEIGHT) #checks if the cannonball can even reach the ship in the first place
             TIMEPEAK = timePeak(VELOCITYY, GRAVITY) #calculates the time it takes to hit its peak
             TOTHEIGHT = totHeight4(MAXHEIGHT, SHIPHEIGHT) #calculates the height from the cannonball to the enemy ship
             FALLTIME = fallTime(TOTHEIGHT, GRAVITY) #calculates the time it takes to fall from that time
