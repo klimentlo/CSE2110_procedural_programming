@@ -4,8 +4,9 @@ title: cannon-operator
 author: kliment-lo
 date-created: 2022-09-21
 '''
-
+#Imported thingies
 import math
+
 # --- FUNCTIONS --- #
 
 ### INPUTS
@@ -16,16 +17,17 @@ def menu():
     '''
     print('''
     
--------------------------------------------------------------------------------------------------------------------------------------------
-|                                  |                                  |                                  |                                |
-|      Scenario 1:                 |         Scenario 2:              |         Scenario 3:              |         Scenario 4:            |
-|        ____                      |             ___                  |            ____                  |            ____                |
-|        |   \\                     |            /   \\                 |           /    \\                 |           /    \\               |   
-|        |    \\                    |           /     \\                |          |      \\                |          /      \\              |   
-|        |     \\                   |          /       \\               |                  \\               |         /                      |
-|       Horizontal to the water    |     Parabolic to a level boat    |    Parabolic to a smaller boat   |   Parabolic to a larger boat   |
-|                                  |                                  |    boat far away                 |   far away                     |
--------------------------------------------------------------------------------------------------------------------------------------------
+    Scenarios:
+    -------------------------------------------------------------------------------------------------------------------------------------------
+    |                                  |                                  |                                  |                                |
+    |      Scenario 1:                 |         Scenario 2:              |         Scenario 3:              |         Scenario 4:            |
+    |        ____                      |             ___                  |            ____                  |            ____                |
+    |        |   \\                     |            /   \\                 |           /    \\                 |           /    \\               |   
+    |        |    \\                    |           /     \\                |          |      \\                |          /      \\              |   
+    |        |     \\                   |          /       \\               |                  \\               |         /                      |
+    |       Horizontal to the water    |     Parabolic to a level boat    |    Parabolic to a smaller boat   |   Parabolic to a larger boat   |
+    |                                  |                                  |    boat far away                 |   far away                     |
+    -------------------------------------------------------------------------------------------------------------------------------------------
     ''')
 
     CHOICE = input("Select a scenario you'd like to calculate: ")
@@ -319,14 +321,14 @@ In this program, North will be positive, and South will be negative!
 In addition, gravity is a value that you provide. Here are some different gravities you could play around with! 
 (But for realistic calculations, use earth's gravity.)
 
-               Gravities of planets in our solar system
-               ---------------------------------------
-               |  Mercury: 3.70     Jupiter: 24.8    |
-               |  Venus: 8.87       Saturn: 10.4     |
-               |  Earth: 9.81       Uranus: 8.87     |
-               |  Mars: 3.71        Neptune: 11.2    |
-               ---------------------------------------
-                         (values are in m/s)  
+        Gravities of planets in our solar system
+         ---------------------------------------
+         |  Mercury: 3.70     Jupiter: 24.8    |
+         |  Venus: 8.87       Saturn: 10.4     |
+         |  Earth: 9.81       Uranus: 8.87     |
+         |  Mars: 3.71        Neptune: 11.2    |
+         ---------------------------------------
+                  (values are in m/s)  
     ''')
 
 
